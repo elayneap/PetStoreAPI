@@ -20,11 +20,11 @@ public class Pet {
     }
 
     //Incluir - create - post
-    @Test(priority = 1) //Identifica o mÃ©todo e funÃ§Ã£o como um teste
+    @Test(priority = 1) //Identifica o método e função como um teste
     public void IncluirPet() throws IOException {
         String jsonBody = lerJson("db/pet1.json");
 
-        //Sintaxe Gherkin - DisponÃ­vel pelo Rest-Assured
+        //Sintaxe Gherkin - Disponível pelo Rest-Assured
         given()
                 .contentType("application/json")
                 .log().all()
@@ -46,6 +46,7 @@ public class Pet {
     public void ConsultarPet(){
         String petId = "1974080123";
 
+        String statusAnimal =
         given()
                 .contentType("application/json")
                 .log().all()
@@ -56,7 +57,10 @@ public class Pet {
                 .statusCode(200)
                 .body("name", is ("Lucky"))
                 .body("category.name", is ("dog"))
-                .body("status", is ("available"))
+                //.body("status", is ("available"))
+        .extract()
+                .path("status")
         ;
+        System.out.println("O status do animal é " + statusAnimal);
     }
 }

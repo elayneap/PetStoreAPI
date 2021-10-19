@@ -20,7 +20,7 @@ public class Pet {
     }
 
     //Incluir - create - post
-    @Test //Identifica o método e função como um teste
+    @Test(priority = 1) //Identifica o método e função como um teste
     public void IncluirPet() throws IOException {
         String jsonBody = lerJson("db/pet1.json");
 
@@ -39,6 +39,24 @@ public class Pet {
                 .body("category.name", is("dog"))
 
                 .body("tags.name", contains("sta"))
+        ;
+    }
+
+    @Test(priority = 2)
+    public void ConsultarPet(){
+        String petId = "1974080123";
+
+        given()
+                .contentType("application/json")
+                .log().all()
+        .when()
+                .get(uri + "/" + petId)
+        .then()
+                .log().all()
+                .statusCode(200)
+                .body("name", is ("Lucky"))
+                .body("category.name", is ("dog"))
+                .body("status", is ("available"))
         ;
     }
 }

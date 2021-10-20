@@ -63,4 +63,23 @@ public class Pet {
         ;
         System.out.println("O status do animal é " + statusAnimal);
     }
+
+    @Test(priority = 3)
+    public void AlterarPet() throws IOException {
+        String jsonBody = lerJson("db/pet2.json");
+
+        given()
+                .contentType("application/json")
+                .log().all()
+                .body(jsonBody)
+        .when()
+                .put(uri)
+
+        .then()
+                .log().all()
+                .statusCode(200)
+                .body("name", is("Lucky"))
+                .body("status", is("donated"))
+        ;
+    }
 }
